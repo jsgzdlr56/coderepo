@@ -1,0 +1,99 @@
+git init 初始化本地库后会有.git隐藏文件 存放的是本地库相关的子目录和文件，不要删除，也不要修改。
+
+-rw-r--r-- 1 Administrator 197121 130  5月 22 10:08 config
+-rw-r--r-- 1 Administrator 197121  73  5月 22 10:08 description
+-rw-r--r-- 1 Administrator 197121  23  5月 22 10:08 HEAD
+drwxr-xr-x 1 Administrator 197121   0  5月 22 10:08 hooks/
+drwxr-xr-x 1 Administrator 197121   0  5月 22 10:08 info/
+drwxr-xr-x 1 Administrator 197121   0  5月 22 10:08 objects/
+drwxr-xr-x 1 Administrator 197121   0  5月 22 10:08 refs/
+
+2.设置签名：
+形式; 
+	用户名：tom
+		email地址：邮箱
+		作用：区分不同开发工作人员的身份。
+		辨析：这里设置的签名和登陆远程库的账号，密码是没有任何关系
+	命令：
+		项目级别/仓库级别：仅在当前本地库范围内有效
+			git config user.name  username
+			git config user.emal  useremal
+			信息保存在config下
+
+	系统用户级别：登陆当前操作系统的用户范围。
+			git config --global  user.name  username
+			git config --global  user.email useremail
+			系统用户的保存在user/admin目录下
+	优先级：	
+		就近原则： 项目级别优先于系统用户级别，两者有时采用项目级别的签名。
+		如果只有系统用户级别的签名，就以系统用户级别的签名为准。
+
+	3.命令操作：
+		git status : 	查看当前库的状态
+		git add：		git add将文件添加到将要被提交的区域（缓存区，暂存区） 在未add的文件是红色，add后就是绿色。
+		git rm --cached：      将add的文件从暂存区拉出来
+		git commit: 		提交一个文件到本地库
+		git -m file  可以直接修改提交消息
+					提交后会生成一个版本号： fa3432f 
+					warning: LF will be replaced by CRLF in git.txt.
+					The file will have its original line endings in your working directory
+					[master (root-commit) fa3432f]  commit git.txt
+					 1 file changed, 3 insertions(+)
+					 create mode 100644 git.txt	
+		git restore <file>  撤销修改的文件，还原版本
+版本的前进和后退：
+	git log  
+	git log --pretty=oneline 会显示一行
+	git log--oneline
+	git reflog 		会记录指针的位置，移动到哪一个位置需要走的步骤
+		264f263 (HEAD -> master) HEAD@{0}: commit: 333
+		6cd24f2 HEAD@{1}: commit: 222
+		97f8f64 HEAD@{2}: commit: 1111
+		e666dda HEAD@{3}: commit: 修改稿
+		fa3432f HEAD@{4}: commit (initial): commit git.txt
+	使用索引值：
+		git reset --hard  索引  就可以根据索引回退到哪个版本或者前进到哪个版本
+		^符号  git reset --hard^^^  几个亦或就是后退几步，但是只能后退
+
+	reset 命令三个参数对比;
+		--soft参数： 仅仅在本地库移动head指针
+		--mixed参数
+			在本地库移动head指针
+			重置缓存区
+		--hard 参数
+			在本地库移动head指针
+			重置缓存区
+			重置工作区
+比较文件的差异：
+		git diff 
+
+git 分支管理
+	分支用于管理不同的项目：
+		git branch -v  查看分支
+		git branch  zsl  创建分支
+		git checkout zsl  切换分支
+	合并分支：
+
+		第一步：切换到接收修改的分支（被合并，增加内容）上
+			git checkout{被合并分支名}
+		第二部;	执行merge命令
+			git merge[有新的内容分支名]
+	解决冲突：
+		appleaaaaaaaaaaa zsl zslzsl
+		apple
+		apple
+		<<<<<<< HEAD 当前的指针
+		apple @@@@@@@@@@@@@ 
+		=======
+		apple@@@@@@@@@@@@ 
+		>>>>>>> zsl  这个分支的指针
+		确定要合并的内容，然后删除标记
+		之后 git add 文件
+			git commit -m "" 后面就不要跟文件名字
+
+	远程：
+		git remote  add "别名" 远程仓库地址
+		git  remote -v   查看记录
+		git push  "别名" "分支" 
+
+ 
